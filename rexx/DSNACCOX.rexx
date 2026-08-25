@@ -2,7 +2,7 @@
 /*********************************************************************/
 /* DSNACCOX DRIVER - Db2 for z/OS 13                                 */
 /*                                                                   */
-/* 17.08.2026 by David Dylong                                        */
+/*Public reference implementation                                    */
 /*                                                                   */
 /*                                                                   */
 /* DDs:                                                              */
@@ -29,7 +29,7 @@
 ARG SSID
 
 IF SSID = '' THEN
-   SSID = 'DBDG'
+   SSID = 'DB2A'
 
 
 /*********************************************************************/
@@ -48,7 +48,7 @@ IF RC <> 0 THEN
 
 qtype  = 'ALL'
 otype  = 'ALL'
-ictype = 'F'
+ictype = 'B'
 cats   = 'SYSIBM'
 locals = 'DSNACC'
 chklvl = 8
