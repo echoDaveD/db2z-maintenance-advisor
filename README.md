@@ -218,4 +218,4 @@ MIT. See `LICENSE`.
 
 ---
 
-**AI disclosure:** The English project description and documentation in this repository were generated with assistance from OpenAI ChatGPT and should be technically reviewed before publication or production use. The implementation reflects iterative testing and operational observations supplied during development.
+**AI disclosure:** The English project description and documentation in this repository were generated with assistance from OpenAI ChatGPT.
