@@ -1,0 +1,62 @@
+*------------------------------------------------------------------*
+* DB2UTGEN SAMPLE PARAMETERS
+*------------------------------------------------------------------*
+LIBRARY             USER.DB2MAINT.JCL
+MEMBER              MAINT
+SSID                DB2A
+MAXOBJECTS           50
+JOBCLASS             A
+MSGCLASS             X
+ITEMERROR            SKIP
+GENERATEEMPTY        NO
+
+*------------------------------------------------------------------*
+* REORG
+*------------------------------------------------------------------*
+REORGJOB             DBRG001
+REORGMEMBER          MAINTR
+REORGMAX             50
+REORGRETPD           16
+REORGUNIT            SYSALLDA
+REORGHLQ             USER.DB2MAINT
+REORGSHRLEVEL        CHANGE
+REORGONLYAUTO        YES
+REORGINDEX           YES
+REORGPREVIEW         YES
+
+*------------------------------------------------------------------*
+* INCREMENTAL COPY
+*------------------------------------------------------------------*
+ICOPYJOB             DBIC001
+ICOPYMEMBER          MAINTI
+ICOPYMAX             50
+ICOPYRETPD           16
+ICOPYUNIT            SYSALLDA
+ICOPYHLQ             USER.DB2MAINT
+ICOPYSHRLEVEL        CHANGE
+ICOPYPREVIEW         YES
+
+*------------------------------------------------------------------*
+* FULL COPY
+*------------------------------------------------------------------*
+FULLCOPYJOB          DBFC001
+FULLCOPYMEMBER       MAINTF
+FULLCOPYMAX          50
+FULLCOPYRETPD        16
+FULLCOPYUNIT         SYSALLDA
+FULLCOPYHLQ          USER.DB2MAINT
+FULLCOPYSHRLEVEL     CHANGE
+FULLCOPYINDEX        YES
+FULLCOPYPREVIEW      YES
+
+*------------------------------------------------------------------*
+* RUNSTATS
+*------------------------------------------------------------------*
+RUNSTATSJOB          DBRS001
+RUNSTATSMEMBER       MAINTS
+RUNSTATSMAX          50
+RUNSTATSSHRLEVEL     CHANGE
+RUNSTATSUPDATE       ALL
+RUNSTATSINDEX        YES
+RUNSTATSPROFILE      YES
+RUNSTATSPREVIEW      YES
