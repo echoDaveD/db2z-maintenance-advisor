@@ -1,0 +1,18 @@
+//* Example generated RUNSTATS statements
+//SYSIN DD *
+OPTIONS PREVIEW EVENT(ITEMERROR,SKIP)
+
+-- Profile-driven recommendation
+RUNSTATS TABLESPACE APPDB.TS01
+         PART 1
+         TABLE (APP.TAB01)
+         USE PROFILE
+         SHRLEVEL CHANGE UPDATE ALL
+
+-- Normal recommendation
+RUNSTATS TABLESPACE APPDB.TS02
+         PART 1
+         TABLE(ALL) INDEX(ALL)
+         TABLESAMPLE SYSTEM AUTO
+         SHRLEVEL CHANGE UPDATE ALL
+/*
