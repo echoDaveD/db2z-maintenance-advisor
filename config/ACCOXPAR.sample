@@ -1,0 +1,96 @@
+*------------------------------------------------------------------*
+* DSNACCOX CONTROL
+*------------------------------------------------------------------*
+QUERYTYPE                 ALL
+OBJECTTYPE                ALL
+ICTYPE                    B
+CHKLVL                    40
+
+*------------------------------------------------------------------*
+* INCREMENTAL IMAGE COPY
+*------------------------------------------------------------------*
+ICRUPDATEDPAGESPCT         5
+ICRUPDATEDPAGESABS       100
+* Percentage-only change criteria can be noisy on tiny objects.
+ICRCHANGESPCT             -1
+
+*------------------------------------------------------------------*
+* FULL IMAGE COPY
+*------------------------------------------------------------------*
+CRUPDATEDPAGESPCT         30
+CRUPDATEDPAGESABS       1000
+CRCHANGESPCT              -1
+CRDAYSNCLASTCOPY          14
+CRINDEXSIZE               50
+
+*------------------------------------------------------------------*
+* REORG TABLESPACE
+*------------------------------------------------------------------*
+RRTINSERTSPCT             20
+RRTINSERTSABS           1000
+RRTDELETESPCT             25
+RRTDELETESABS           1000
+RRTUNCLUSTINSPCT          10
+RRTDISORGLOBPCT           50
+RRTDATASPACERAT           -1
+RRTMASSDELLIMIT            0
+RRTINDREFLIMIT              5
+
+*------------------------------------------------------------------*
+* REORG INDEX
+*------------------------------------------------------------------*
+RRIINSERTSPCT             -1
+RRIINSERTSABS              0
+RRIDELETESPCT             30
+RRIDELETESABS           1000
+RRIAPPENDINSERTPCT        20
+RRIPSEUDODELETEPCT         5
+RRIMASSDELLIMIT            0
+RRILEAFLIMIT              10
+RRINUMLEVELSLIMIT          0
+
+*------------------------------------------------------------------*
+* DB2 13 SPECIALPARM REORG CRITERIA
+*------------------------------------------------------------------*
+RRIEMPTYLIMIT              5
+RRTHASHOVRFLWRATIO        15
+
+*------------------------------------------------------------------*
+* RUNSTATS TABLESPACE
+*------------------------------------------------------------------*
+SRTINSDELUPDPCT           20
+SRTINSDELUPDABS         1000
+SRTMASSDELLIMIT            0
+
+*------------------------------------------------------------------*
+* RUNSTATS INDEX
+*------------------------------------------------------------------*
+SRIINSDELPCT              20
+SRIINSDELABS            1000
+SRIMASSDELLIMIT            0
+
+*------------------------------------------------------------------*
+* EXTENTS
+*------------------------------------------------------------------*
+EXTENTLIMIT              100
+
+*------------------------------------------------------------------*
+* LOCAL AUTOMATIC REORG POLICY
+*------------------------------------------------------------------*
+EXCLUDE_DBNAME            DSNDB*
+MIN_REORG_SIZE_MB         50
+MAX_REORG_SIZE_GB        500
+MIN_DAYS_SINCE_REORG       7
+PROCESS_AREO             YES
+PROCESS_REORP            YES
+REORP_OVERRIDE_LIMITS    YES
+REQUIRE_SIZE_KNOWN       YES
+OUTPUT_ONLY_AUTO_REORG    NO
+
+*------------------------------------------------------------------*
+* GLOBAL OBJECT EXCLUSIONS
+* These objects remain visible in ACCOXOUT but DB2UTGEN suppresses
+* all generated utilities when POLICY contains OBJECT_EXCLUDED.
+*------------------------------------------------------------------*
+*EXCLUDE_OBJECT           APPLOAD.TSDAILY
+*EXCLUDE_OBJECT           STAGE*.TS*
