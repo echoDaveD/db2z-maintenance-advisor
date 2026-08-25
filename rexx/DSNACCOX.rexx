@@ -2,17 +2,17 @@
 /*********************************************************************/
 /* DSNACCOX DRIVER - Db2 for z/OS 13                                 */
 /*                                                                   */
-/* Public reference implementation                                        */
+/* 17.08.2026 by David Dylong                                        */
 /*                                                                   */
 /*                                                                   */
 /* DDs:                                                              */
 /*   ACCOXPAR  - DSNACCOX thresholds and local policy                */
 /*   ACCOXOUT  - result / maintenance advisor output                 */
 /*                                                                   */
-/* Parameters that are NOT specified in ACCOXPAR are passed as NULL to       */
-/* DSNACCOX. DSNACCOX therefore uses the IBM default.    */
+/* Parameters that are NOT specified in ACCOXPAR are passed as NULL  */
+/* to DSNACCOX. DSNACCOX therefore uses the IBM default.             */
 /*                                                                   */
-/* Example ACCOXPAR:                                                */
+/* Example ACCOXPAR:                                                 */
 /*                                                                   */
 /*   CRUPDATEDPAGESPCT   30                                          */
 /*   CRDAYSNCLASTCOPY    14                                          */
@@ -22,14 +22,14 @@
 /*   SRTINSDELUPDPCT     25                                          */
 /*   EXTENTLIMIT         200                                         */
 /*                                                                   */
-/* For many DSNACCOX criteria, a negative value disables the      */
-/* corresponding criterion.                                      */
+/* For many DSNACCOX criteria, a negative value disables the         */
+/* corresponding criterion.                                          */
 /*********************************************************************/
 
 ARG SSID
 
 IF SSID = '' THEN
-   SSID = 'DB2A'
+   SSID = 'DBDG'
 
 
 /*********************************************************************/
@@ -48,15 +48,15 @@ IF RC <> 0 THEN
 
 qtype  = 'ALL'
 otype  = 'ALL'
-ictype = 'B'
+ictype = 'F'
 cats   = 'SYSIBM'
 locals = 'DSNACC'
-chklvl = 40
+chklvl = 8
 crit   = ''
 
 /* Db2 13 SPECIALPARM consists of 4-byte sections.                  */
 /* Section 1 = RRIEmptyLimit, section 2 = RRTHashOvrFlwRatio.       */
-/* Blank section means: use the IBM default.                         */
+/* Blank section means: use the IBM default.                        */
 rriemptylimit_sp = ''
 rriemptylimit_sp_set = 0
 rrthashratio_sp = ''
@@ -81,10 +81,10 @@ profile_cursor_declared = 0
 
 
 /*********************************************************************/
-/* DSNACCOX THRESHOLDS                                             */
+/* DSNACCOX THRESHOLDS                                               */
 /*                                                                   */
-/* All indicators are initially -1 = SQL NULL.                           */
-/* This causes DSNACCOX to use its own IBM default.                */
+/* All indicators are initially -1 = SQL NULL.                       */
+/* This causes DSNACCOX to use its own IBM default.                  */
 /*********************************************************************/
 
 /*-------------------------------------------------------------------*/
@@ -217,7 +217,7 @@ extentlimit_i        = -1
 
 
 /*********************************************************************/
-/* READ PARAMETERS FROM ACCOXPAR                                      */
+/* READ PARAMETERS FROM ACCOXPAR                                     */
 /*********************************************************************/
 
 CALL ReadParameters
@@ -225,7 +225,7 @@ CALL BuildSpecialParm
 
 
 /*********************************************************************/
-/* DISPLAY EFFECTIVE PARAMETERS                                     */
+/* DISPLAY EFFECTIVE PARAMETERS                                      */
 /*********************************************************************/
 
 CALL ShowParameters
@@ -244,7 +244,7 @@ END
 
 
 /*********************************************************************/
-/* DSNACCOX OUTPUT PARAMETERS                                         */
+/* DSNACCOX OUTPUT PARAMETERS                                        */
 /*********************************************************************/
 
 laststatement = COPIES(' ',8012)
@@ -352,9 +352,6 @@ callsql = callsql ":ifcarc :ifcarc_i,"
 callsql = callsql ":ifcarsn :ifcarsn_i,"
 callsql = callsql ":xsbytes :xsbytes_i)"
 
-SAY 'DSNACCOX CALL:'
-SAY callsql
-
 ADDRESS DSNREXX callsql
 
 IF SQLCODE < 0 THEN
@@ -432,7 +429,7 @@ IF SQLCODE < 0 THEN
 
 
 /*********************************************************************/
-/* RESULT SET CHAR / VARCHAR / TIMESTAMP                              */
+/* RESULT SET CHAR / VARCHAR / TIMESTAMP                             */
 /*********************************************************************/
 
 db              = COPIES(' ',24)
@@ -569,7 +566,7 @@ rrtpbgspacepct_rs_i   = 0
 
 
 /*********************************************************************/
-/* OPEN OUTPUT                                                    */
+/* OPEN OUTPUT                                                       */
 /*********************************************************************/
 
 ADDRESS TSO "EXECIO 0 DISKW ACCOXOUT (OPEN"
@@ -768,7 +765,7 @@ DO FOREVER
 
 
    /******************************************************************/
-   /* NULL CHAR VALUES                                                */
+   /* NULL CHAR VALUES                                               */
    /******************************************************************/
 
    IF imagecopy_i < 0 THEN
@@ -802,10 +799,10 @@ DO FOREVER
    /******************************************************************/
    /* RECOMMENDATION REASONS                                         */
    /*                                                                */
-   /* IMPORTANT:                                                       */
+   /* IMPORTANT:                                                     */
    /* A result-set indicator < 0 means SQL NULL.                     */
-   /* DSNACCOX returns numeric criteria as non-NULL only when the       */
-   /* corresponding threshold has been exceeded.                */
+   /* DSNACCOX returns numeric criteria as non-NULL only when the    */
+   /* corresponding threshold has been exceeded.                     */
    /******************************************************************/
 
    reason   = ''
@@ -1526,9 +1523,7 @@ ReadParameters:
 
    END
 
-
    SAY ' '
-
 RETURN
 
 
@@ -1849,7 +1844,7 @@ RETURN
 
 
 /*********************************************************************/
-/* PARAMETER LIST FOR JOB LOG                                         */
+/* PARAMETER LIST FOR JOB LOG                                        */
 /*********************************************************************/
 
 ShowParameters:
@@ -2030,7 +2025,7 @@ RETURN
 
 
 /*********************************************************************/
-/* DISPLAY SINGLE PARAMETER                                              */
+/* DISPLAY SINGLE PARAMETER                                          */
 /*********************************************************************/
 
 ShowParm:
@@ -2718,6 +2713,3 @@ SQLERR:
    ADDRESS DSNREXX "DISCONNECT"
 
 EXIT 12
-
-
-
