@@ -1,0 +1,6 @@
+# Illustrative excerpt only; the real file is fixed-width and produced by DSNACCOX.rexx.
+#
+# DBNAME  NAME   OT PROFILE_TABLE  COPY RUN REO AUTO POLICY             REASON
+APPDB     TS01   TS APP.TAB01      NO   YES NO  -    -                  RUNSTATS PROFILE_UPDATE_AFTER_LAST_STATS
+APPDB     TS02   TS -              INC  NO  NO  -    -                  COPY UPDATED_PAGES ...
+APPLOAD   TSDAILY TS -             FULL YES YES NO   OBJECT_EXCLUDED    COPY ...; RUNSTATS ...; REORG ...
